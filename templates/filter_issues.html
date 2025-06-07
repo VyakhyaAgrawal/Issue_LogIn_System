@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Issues</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            transition: 0.3s;
+        }
+
+        select:focus, button:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f6fc;
+        }
+
+        tr:hover {
+            background-color: #e2eefd;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                background-color: white;
+                padding: 10px;
+            }
+
+            td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                font-weight: bold;
+                text-align: left;
+                color: #007bff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔍 Filter Reported Issues</h2>
+
+        <form method="POST" action="/filter_issues">
+            <label>
+                <select name="region" required>
+                    <option value="">Region: All</option>
+                    <option value="north">North</option>
+                    <option value="south">South</option>
+                    <option value="east">East</option>
+                    <option value="west">West</option>
+                </select>
+            </label>
+
+            <label>
+                <select name="priority" required>
+                    <option value="">Priority: All</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </label>
+
+            <button type="submit">Apply Filters</button>
+        </form>
+
+        {% if issues %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Exam</th>
+                    <th>Venue</th>
+                    <th>On</th>
+                    <th>Priority</th>
+                    <th>Reported</th>
+                    <th>Reported By</th>
+                    <th>Reported To</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <td data-label="ID">{{ issue.ISSUE_ID }}</td>
+                    <td data-label="Exam">{{ issue.NAME_OF_EXAM }}</td>
+                    <td data-label="Venue">{{ issue.VENUE_CODE }}</td>
+                    <td data-label="On">{{ issue.ISSUE_ON }}</td>
+                    <td data-label="Priority">{{ issue.ISSUE_PRIORITY }}</td>
+                    <td data-label="Reported">{{ issue.ISSUE_REPORTED }}</td>
+                    <td data-label="Reported By">{{ issue.ISSUE_REPORTED_BY }}</td>
+                    <td data-label="Reported To">{{ issue.ISSUE_REPORTED_TO }}</td>
+                    <td data-label="Status">{{ issue.STATUS }}</td>
+                    <td data-label="Date">{{ issue.ISSUE_DATE }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center; color: gray;">No issues found for selected filters.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

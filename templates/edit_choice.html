@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Issue Options</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        form button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        form button:last-child {
+            background: linear-gradient(to right, #28a745, #218838);
+        }
+
+        form button:hover {
+            transform: scale(1.03);
+            opacity: 0.95;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 90%;
+                padding: 30px 20px;
+            }
+
+            form button {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🛠️ Choose an Edit Option</h2>
+        <form method="POST" action="{{ url_for('edit_choice') }}">
+            <button name="action" value="edit_details">✏️ Edit Issue Details</button>
+            <button name="action" value="update_status">✅/❌ Mark as Solved or Unsolved</button>
+        </form>
+    </div>
+</body>
+</html>

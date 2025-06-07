@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Issue - Public User</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f4f7, #d9e2ec);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .preview {
+            margin-top: 40px;
+            border: 2px dashed #007bff;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #e9f5ff;
+        }
+
+        .preview h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .preview p {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📋 Submit an Issue</h2>
+
+    <!-- Flash Message -->
+    {% if message %}
+        <div class="message {% if '✅' in message %}success{% else %}error{% endif %}">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <!-- Form Start -->
+    <form method="POST" action="/public_issue">
+        <label for="name_of_exam">Name of Exam:</label>
+        <input type="text" id="name_of_exam" name="name_of_exam" required>
+
+        <label for="venue_code">Venue Code:</label>
+        <input type="text" id="venue_code" name="venue_code" required>
+
+        <label for="issue_on">Issue On:</label>
+        <select id="issue_on" name="issue_on" required>
+            <option value="" disabled selected>--Select--</option>
+            <option value="Mock Day">Mock Day</option>
+            <option value="Exam Day">Exam Day</option>
+        </select>
+
+        <label for="issue_priority">Issue Priority:</label>
+        <select id="issue_priority" name="issue_priority" required>
+            <option value="" disabled selected>--Select--</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <label for="issue_reported">Issue Reported:</label>
+        <select id="issue_reported" name="issue_reported" required>
+            <option value="" disabled selected>--Select--</option>
+            <option>Bio Metric Operator Not Available As Per Requirement</option>
+            <option>UPS Got Faulty</option>
+            <option>DG Got Faulty</option>
+            <option>UPS AND DG Got Both Faulty</option>
+            <option>MCB Issue-Trip</option>
+            <option>MCB Issue-Power Line</option>
+            <option>Power Main Line Wiring Issue</option>
+            <option>Manpower Not Available</option>
+            <option>Manpower Not Available As Per Requirement</option>
+            <option>IT Person Not Available</option>
+            <option>IT Person Not Available As Per Requirement</option>
+            <option>SPOC Person Not Available</option>
+        </select>
+
+        <label for="issue_reported_by">Issue Reported By:</label>
+        <select id="issue_reported_by" name="issue_reported_by" required>
+            <option value="" disabled selected>--Select--</option>
+            <option>Sandeep</option>
+            <option>Vivek</option>
+            <option>Rahul</option>
+            <option>Ritesh</option>
+            <option>Tapan</option>
+            <option>Rajesh</option>
+            <option>Mandar</option>
+            <option>Siddhesh</option>
+            <option>Anand</option>
+            <option>Fazil</option>
+            <option>Nihar</option>
+            <option>Aswath</option>
+            <option>Nawaz</option>
+            <option>Ashish</option>
+            <option>Pankaj</option>
+            <option>Shibu</option>
+        </select>
+
+        <label for="issue_reported_to">Issue Reported To:</label>
+        <select id="issue_reported_to" name="issue_reported_to" required>
+            <option value="" disabled selected>--Select--</option>
+            <option>Head of Operations through WhatsApp</option>
+            <option>Booking Partner through WhatsApp</option>
+            <option>Internal WhatsApp Group</option>
+            <option>Exam Control Room WhatsApp</option>
+            <option>Exam Control Room through Calling</option>
+        </select>
+
+        <button type="submit">📨 Submit Issue</button>
+    </form>
+
+    <!-- Preview After Submission -->
+    {% if submitted_issue %}
+    <div class="preview">
+        <h3>📝 Submitted Issue Preview</h3>
+        <p><strong>Name of Exam:</strong> {{ submitted_issue.name_of_exam }}</p>
+        <p><strong>Venue Code:</strong> {{ submitted_issue.venue_code }}</p>
+        <p><strong>Issue On:</strong> {{ submitted_issue.issue_on }}</p>
+        <p><strong>Priority:</strong> {{ submitted_issue.issue_priority }}</p>
+        <p><strong>Reported:</strong> {{ submitted_issue.issue_reported }}</p>
+        <p><strong>Reported By:</strong> {{ submitted_issue.issue_reported_by }}</p>
+        <p><strong>Reported To:</strong> {{ submitted_issue.issue_reported_to }}</p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
+

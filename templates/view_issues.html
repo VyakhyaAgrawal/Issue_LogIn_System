@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Reported Issues</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px 10px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f6fc;
+        }
+
+        tr:hover {
+            background-color: #e2eefd;
+        }
+
+        td {
+            color: #333;
+            font-size: 14px;
+        }
+
+        th:first-child,
+        td:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        th:last-child,
+        td:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #fff;
+            }
+
+            td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+                color: #007bff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📋 All Reported Issues</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Exam</th>
+                    <th>Venue</th>
+                    <th>On</th>
+                    <th>Priority</th>
+                    <th>Reported</th>
+                    <th>Reported By</th>
+                    <th>Reported To</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <td data-label="ID">{{ issue.ISSUE_ID }}</td>
+                    <td data-label="Exam">{{ issue.NAME_OF_EXAM }}</td>
+                    <td data-label="Venue">{{ issue.VENUE_CODE }}</td>
+                    <td data-label="On">{{ issue.ISSUE_ON }}</td>
+                    <td data-label="Priority">{{ issue.ISSUE_PRIORITY }}</td>
+                    <td data-label="Reported">{{ issue.ISSUE_REPORTED }}</td>
+                    <td data-label="Reported By">{{ issue.ISSUE_REPORTED_BY }}</td>
+                    <td data-label="Reported To">{{ issue.ISSUE_REPORTED_TO }}</td>
+                    <td data-label="Status">{{ issue.STATUS }}</td>
+                    <td data-label="Date">{{ issue.ISSUE_DATE }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
