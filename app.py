@@ -119,25 +119,32 @@ def view_issues():
 
     return render_template("view_issues.html", issues=issues)
 
-# Filter issues by region and priority
 @app.route('/filter_issues', methods=['GET', 'POST'])
 def filter_issues():
     if 'team_user' not in session:
         return redirect(url_for('login'))
 
-    query = "SELECT * FROM issues WHERE 1=1"
+    query = """
+        SELECT issues.* FROM issues
+        JOIN venues ON issues.VENUE_CODE = venues.VENUE_CODE
+        WHERE 1=1
+    """
     filters = []
+
+    # Initialize for both GET and POST
+    region = None
+    priority = None
 
     if request.method == 'POST':
         region = request.form.get('region')
         priority = request.form.get('priority')
 
-        if region:
-            query += " AND VENUE_CODE LIKE %s"
-            filters.append(region[0].upper() + '%')  # e.g., N%, S%, etc.
+        if region and region != 'all':
+            query += " AND venues.REGION = %s"
+            filters.append(region.lower())  # assuming lowercase region values in DB
 
-        if priority:
-            query += " AND ISSUE_PRIORITY = %s"
+        if priority and priority != 'all':
+            query += " AND issues.ISSUE_PRIORITY = %s"
             filters.append(priority)
 
     conn = mysql.connector.connect(**db_config)
@@ -146,7 +153,10 @@ def filter_issues():
     issues = cursor.fetchall()
     conn.close()
 
-    return render_template("filter_issues.html", issues=issues)
+    return render_template("filter_issues.html", issues=issues,
+                           selected_region=region,
+                           selected_priority=priority)
+
 
 @app.route('/edit_choice', methods=['GET', 'POST'])
 def edit_choice():

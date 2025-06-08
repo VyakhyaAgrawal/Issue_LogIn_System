@@ -125,68 +125,68 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🔍 Filter Reported Issues</h2>
+<div class="container">
+    <h2>🔍 Filter Reported Issues</h2>
 
-        <form method="POST" action="/filter_issues">
-            <label>
-                <select name="region" required>
-                    <option value="">Region: All</option>
-                    <option value="north">North</option>
-                    <option value="south">South</option>
-                    <option value="east">East</option>
-                    <option value="west">West</option>
-                </select>
-            </label>
+    <form method="POST" action="/filter_issues">
+        <label>
+            <select name="region">
+                <option value="all" {% if selected_region == 'all' or not selected_region %}selected{% endif %}>Region: All</option>
+                <option value="north" {% if selected_region == 'north' %}selected{% endif %}>North</option>
+                <option value="south" {% if selected_region == 'south' %}selected{% endif %}>South</option>
+                <option value="east" {% if selected_region == 'east' %}selected{% endif %}>East</option>
+                <option value="west" {% if selected_region == 'west' %}selected{% endif %}>West</option>
+            </select>
+        </label>
 
-            <label>
-                <select name="priority" required>
-                    <option value="">Priority: All</option>
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
-                </select>
-            </label>
+        <label>
+            <select name="priority">
+                <option value="all" {% if selected_priority == 'all' or not selected_priority %}selected{% endif %}>Priority: All</option>
+                <option value="Low" {% if selected_priority == 'Low' %}selected{% endif %}>Low</option>
+                <option value="Medium" {% if selected_priority == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="High" {% if selected_priority == 'High' %}selected{% endif %}>High</option>
+            </select>
+        </label>
 
-            <button type="submit">Apply Filters</button>
-        </form>
+        <button type="submit">Apply Filters</button>
+    </form>
 
-        {% if issues %}
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Exam</th>
-                    <th>Venue</th>
-                    <th>On</th>
-                    <th>Priority</th>
-                    <th>Reported</th>
-                    <th>Reported By</th>
-                    <th>Reported To</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for issue in issues %}
-                <tr>
-                    <td data-label="ID">{{ issue.ISSUE_ID }}</td>
-                    <td data-label="Exam">{{ issue.NAME_OF_EXAM }}</td>
-                    <td data-label="Venue">{{ issue.VENUE_CODE }}</td>
-                    <td data-label="On">{{ issue.ISSUE_ON }}</td>
-                    <td data-label="Priority">{{ issue.ISSUE_PRIORITY }}</td>
-                    <td data-label="Reported">{{ issue.ISSUE_REPORTED }}</td>
-                    <td data-label="Reported By">{{ issue.ISSUE_REPORTED_BY }}</td>
-                    <td data-label="Reported To">{{ issue.ISSUE_REPORTED_TO }}</td>
-                    <td data-label="Status">{{ issue.STATUS }}</td>
-                    <td data-label="Date">{{ issue.ISSUE_DATE }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p style="text-align: center; color: gray;">No issues found for selected filters.</p>
-        {% endif %}
-    </div>
+    {% if issues %}
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Exam</th>
+            <th>Venue</th>
+            <th>On</th>
+            <th>Priority</th>
+            <th>Reported</th>
+            <th>Reported By</th>
+            <th>Reported To</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for issue in issues %}
+        <tr>
+            <td data-label="ID">{{ issue.ISSUE_ID }}</td>
+            <td data-label="Exam">{{ issue.NAME_OF_EXAM }}</td>
+            <td data-label="Venue">{{ issue.VENUE_CODE }}</td>
+            <td data-label="On">{{ issue.ISSUE_ON }}</td>
+            <td data-label="Priority">{{ issue.ISSUE_PRIORITY }}</td>
+            <td data-label="Reported">{{ issue.ISSUE_REPORTED }}</td>
+            <td data-label="Reported By">{{ issue.ISSUE_REPORTED_BY }}</td>
+            <td data-label="Reported To">{{ issue.ISSUE_REPORTED_TO }}</td>
+            <td data-label="Status">{{ issue.STATUS }}</td>
+            <td data-label="Date">{{ issue.ISSUE_DATE }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: gray;">No issues found for selected filters.</p>
+    {% endif %}
+</div>
 </body>
 </html>
